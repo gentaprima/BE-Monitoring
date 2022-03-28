@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelKaryawan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -15,13 +16,13 @@ class AuthController extends Controller
 
     public function login(Request $request){
         $validate   =   Validator::make($request->all(), [
-            'email'     =>  'required|max:100',
+            'nip'     =>  'required|max:100',
             'password'  =>  'required|max:100',
         ],
         [
-            'email.required'            =>  'Email is required',
+            'nip.required'            =>  'Nip is required',
             'password.required'         =>  'Password  is required',
-            'email.max'                 =>  'Email max 100 characters',
+            'nip.max'                 =>  'Email max 100 characters',
             'passowrd.max'              =>  'Password max 100 characters',
         ]);
 
@@ -32,18 +33,17 @@ class AuthController extends Controller
             ])->setStatusCode(400);
         }
 
-        $checkData = ModelKaryawan::where('email',$request->email)->first();
+        $checkData = ModelKaryawan::where('nip',$request->nip)->first();
         if($checkData == null){
             return response()->json([
                 'success'   => false,
-                'message'   => 'Email not found !'
+                'message'   => 'Nip not found !'
                 ])->setStatusCode(400);
         }
-
-        if($checkData['password'] != $request->password){
+        if(!Hash::check($request->password, $checkData['password'])){
             return response()->json([
                 'success'   => false,
-                'message'   => 'Pleace Checkk your email and password'
+                'message'   => 'Pleace Checkk your nip and password'
                 ])->setStatusCode(400);
         }
 

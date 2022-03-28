@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelKaryawan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class KaryawanController extends Controller
@@ -84,7 +85,7 @@ class KaryawanController extends Controller
             'nik'               => $request->nik,
             'nama_karyawan'     => $request->nama_karyawan,
             'email'             => $request->email,
-            'password'          => md5($request->nip),
+            'password'          => Hash::make($nip),
             'tgl_lahir'         => $request->tgl_lahir,
             'jabatan'           => $request->jabatan,
             'role'              => 0
@@ -158,12 +159,13 @@ class KaryawanController extends Controller
         $karyawan->nama_karyawan = $request->nama_karyawan;
         $karyawan->email = $request->email;
         $karyawan->tgl_lahir  = $request->tgl_lahir;
-        $karyawan->password  = md5($request->password);
+        $karyawan->password  = Hash::make($request->nip);
 
         $karyawan->save();
         return response()->json([
             'success'   => true,
-            'message'   => "Successfully edit data."
+            'message'   => "Successfully edit data.",
+            'data'      => $karyawan
         ])->setStatusCode(200);
     }
 
