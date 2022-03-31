@@ -26,4 +26,14 @@ Route::get('/karyawan','KaryawanController@index');
 Route::post('/karyawan','KaryawanController@store');
 Route::put('/karyawan/{id}','karyawanController@update');
 Route::delete('/karyawan/{id}','KaryawanController@destroy');
+
+Route::get('/jabatan','JabatanController@index');
+Route::post('/jabatan','JabatanController@store');
+Route::put('/jabatan/{id}','JabatanController@update');
+Route::delete('/jabatan/{id}','JabatanController@destroy');
+
+Route::get('/product','ProductController@index');
+Route::post('/product','ProductController@store');
+Route::put('/product/{id}','ProductController@update');
+Route::delete('/product/{id}','ProductController@destroy');
 // Route::post('/')

@@ -134,7 +134,7 @@ class KaryawanController extends Controller
         $validate = Validator::make($request->all(),[
             'nama_karyawan'             =>  'required|max:100',
             'email'                     =>  'required|max:100|email',
-            'password'                     =>  'required|max:100',
+            'password'                  =>  'required|max:100',
             'tgl_lahir'                 =>  'required|date',
         ],[
             'email.required'            =>  'Email is required',

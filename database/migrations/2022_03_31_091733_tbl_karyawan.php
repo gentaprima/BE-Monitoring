@@ -21,10 +21,11 @@ class TblKaryawan extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->date('tgl_lahir');
-            $table->string('jabatan');
+            $table->unsignedBigInteger('id_jabatan')->unsigned();
             $table->integer('role');
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('id_jabatan')->references('id')->on('tbl_jabatan')->onDelete('cascade');
         });
     }
 
