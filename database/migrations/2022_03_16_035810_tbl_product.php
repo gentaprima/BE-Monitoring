@@ -16,6 +16,7 @@ class TblProduct extends Migration
         Schema::create('tbl_product', function (Blueprint $table) {
             $table->id();
             $table->string('product');
+            $table->string('icon');
         });
     }
 

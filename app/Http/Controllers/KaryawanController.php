@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelKaryawan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,7 +17,10 @@ class KaryawanController extends Controller
      */
     public function index()
     {
-        $data = ModelKaryawan::all();
+        $data = DB::table('tbl_karyawan')
+                    ->leftJoin('tbl_jabatan','tbl_karyawan.id_jabatan','=','tbl_jabatan.id')
+                    ->select('tbl_karyawan.*','tbl_jabatan.jabatan')
+                    ->get();
         return response()->json([
             'success'   => true,
             'data'      => $data
@@ -46,7 +50,8 @@ class KaryawanController extends Controller
             'nama_karyawan'             =>  'required|max:100',
             'email'                     =>  'required|max:100|email',
             'tgl_lahir'                 =>  'required|date',
-            'jabatan'                   =>  'required|max:100',
+            'id_jabatan'                =>  'required|max:100',
+            'role'                      =>  'required'
         ],[
             'nik.required'              =>  'Nik is required',
             'nik.max'                   =>  'Nik max is 16 characters',
@@ -56,7 +61,8 @@ class KaryawanController extends Controller
             'nama_karyawan.max'         =>  'Employee Name max 100 characters',
             'tgl_lahir.required'        =>  'Date of Birth is required',
             'tgl_lahir.date'            =>  'Date of Birth is not a valid date. (YYYY-MM-DD)',
-            'jabatan.required'          =>  'Position of Birth is required',
+            'id_jabatan.required'       =>  'Position  is required',
+            'role.required'             =>  'Role  is required',
         ]);
 
         if($validate->fails()) {
@@ -87,7 +93,7 @@ class KaryawanController extends Controller
             'email'             => $request->email,
             'password'          => Hash::make($nip),
             'tgl_lahir'         => $request->tgl_lahir,
-            'jabatan'           => $request->jabatan,
+            'id_jabatan'        => $request->id_jabatan,
             'role'              => 0
         ]);
 
@@ -136,6 +142,8 @@ class KaryawanController extends Controller
             'email'                     =>  'required|max:100|email',
             'password'                  =>  'required|max:100',
             'tgl_lahir'                 =>  'required|date',
+            'id_jabatan'                =>  'required|max:100',
+            'role'                      =>  'required|max:100'
         ],[
             'email.required'            =>  'Email is required',
             'email.max'                 =>  'Email max 100 characters',
@@ -145,6 +153,8 @@ class KaryawanController extends Controller
             'nama_karyawan.max'         =>  'Employee Name max 100 characters',
             'tgl_lahir.required'        =>  'Date of Birth is required',
             'tgl_lahir.date'            =>  'Date of Birth is not a valid date. (YYYY-MM-DD)',
+            'id_jabatan.required'       =>  'Position is required',
+            'role.required'             =>  'Role is required'  
         ]);
 
         if($validate->fails()) {

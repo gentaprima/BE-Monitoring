@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -41,20 +43,28 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(),[
-            'product'   => "required|max:100"
+            'product'   => "required|max:100",
+            'icon'      => "required"
         ],[
-            'product.required' => "Product is required"
+            'product.required' => "Product is required",
+            'icon.required' => "Icon is required"
         ]);
-
+        
         if($validate->fails()){
             return response()->json([
                 'success'   => false,
                 'message'   => $validate->errors()->first()
-            ])->setStatusCode(200);
+                ])->setStatusCode(200);
         }
+            
+        $uploadedFile = $request->file('icon');
+        $filename = uniqid() . time() . "."  . explode("/", $uploadedFile->getMimeType())[1];
+        Storage::disk('uploads')->put('icon/'.$filename,File::get($uploadedFile));    
+    
 
         $product = ModelProduct::create([
-            'product' => $request->product
+            'product' => $request->product,
+            'icon'  => $filename
         ]);
 
         $product->save();
@@ -100,16 +110,26 @@ class ProductController extends Controller
         ],[
             'product.required' => "Product is required"
         ]);
-
+        
         if($validate->fails()){
             return response()->json([
                 'success'   => false,
                 'message'   => $validate->errors()->first()
-            ])->setStatusCode(200);
+                ])->setStatusCode(200);
         }
 
+        $uploadedFile = $request->file('icon');
         $product = ModelProduct::find($id);
+        if($uploadedFile == null){
+            $filename = $product['icon'];  
+        }else{
+            $filename = uniqid() . time() . "."  . explode("/", $uploadedFile->getMimeType())[1];
+            Storage::disk('uploads')->put('icon/'.$filename,File::get($uploadedFile)); 
+        }
+
+       
         $product->product = $request->product;
+        $product->icon = $filename;
 
         $product->save();
         return response()->json([

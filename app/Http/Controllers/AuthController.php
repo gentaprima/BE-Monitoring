@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelKaryawan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,14 +34,19 @@ class AuthController extends Controller
             ])->setStatusCode(400);
         }
 
-        $checkData = ModelKaryawan::where('nip',$request->nip)->first();
+        // $checkData = ModelKaryawan::where('nip',$request->nip)->first();
+        $checkData = DB::table('tbl_karyawan')
+                        ->leftJoin('tbl_jabatan','tbl_karyawan.id_jabatan','=','tbl_jabatan.id')
+                        ->select('tbl_karyawan.*','tbl_jabatan.jabatan')
+                        ->where('nip','=',$request->nip)
+                        ->first();
         if($checkData == null){
             return response()->json([
                 'success'   => false,
                 'message'   => 'Nip not found !'
                 ])->setStatusCode(400);
         }
-        if(!Hash::check($request->password, $checkData['password'])){
+        if(!Hash::check($request->password, $checkData->password)){
             return response()->json([
                 'success'   => false,
                 'message'   => 'Pleace Checkk your nip and password'
@@ -51,6 +57,6 @@ class AuthController extends Controller
             'success'   => true,
             'message'   => 'success',
             'data'      => $checkData
-            ])->setStatusCode(200);
+        ])->setStatusCode(200);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\KaryawanController;
+use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +22,23 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // AUTH
+Route::get('storage/{filename}', function ($filename)
+{
+    $path = storage_path('storage/app/icon' . $filename);
+    dd($path);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});
 Route::post('/auth','AuthController@login');
 
 Route::get('/karyawan','KaryawanController@index');
