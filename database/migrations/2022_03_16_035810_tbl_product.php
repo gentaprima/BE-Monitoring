@@ -17,6 +17,8 @@ class TblProduct extends Migration
             $table->id();
             $table->string('product');
             $table->string('icon');
+            $table->unsignedBigInteger('id_category_product')->unsigned();
+            $table->foreign('id_category_product')->references('id')->on('tbl_category_product')->onDelete('cascade');
         });
     }
 

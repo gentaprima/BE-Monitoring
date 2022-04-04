@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -34,6 +35,18 @@ class ProductController extends Controller
         //
     }
 
+    public function getByCategory($id){
+        $data = DB::table('tbl_product')
+                    ->leftJoin('tbl_category_product','tbl_product.id_category_product','=','tbl_category_product.id')
+                    ->select('tbl_product.*','tbl_category_product.category')
+                    ->where('tbl_product.id_category_product','=',$id)
+                    ->get();
+        return response()->json([
+            'success'   => true,
+            'data'      => $data
+        ])->setStatusCode(200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -44,10 +57,12 @@ class ProductController extends Controller
     {
         $validate = Validator::make($request->all(),[
             'product'   => "required|max:100",
-            'icon'      => "required"
+            'icon'      => "required",
+            'category'  => "required"
         ],[
             'product.required' => "Product is required",
-            'icon.required' => "Icon is required"
+            'icon.required' => "Icon is required",
+            'category.required' => "Category Product is required"
         ]);
         
         if($validate->fails()){
@@ -64,7 +79,8 @@ class ProductController extends Controller
 
         $product = ModelProduct::create([
             'product' => $request->product,
-            'icon'  => $filename
+            'icon'  => $filename,
+            'id_category_product'  => $request->category
         ]);
 
         $product->save();
@@ -106,9 +122,11 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $validate = Validator::make($request->all(),[
-            'product'   => "required|max:100"
+            'product'   => "required|max:100",
+            'category'  => "required"
         ],[
-            'product.required' => "Product is required"
+            'product.required' => "Product is required",
+            'categort.required' => "Category Product is required"
         ]);
         
         if($validate->fails()){
@@ -130,6 +148,7 @@ class ProductController extends Controller
        
         $product->product = $request->product;
         $product->icon = $filename;
+        $product->id_category_product = $request->category;
 
         $product->save();
         return response()->json([
