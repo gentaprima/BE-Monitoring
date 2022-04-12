@@ -134,8 +134,26 @@ class ProgramController extends Controller
      * @param  \App\Models\ModelProgram  $modelProgram
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ModelProgram $modelProgram)
+    public function destroy($id)
     {
-        //
+        $program = ModelProgram::find($id);
+        $program->delete();
+        return response()->json([
+            'success'   => true,
+            'message'   => 'Successfully deletinggetByProduct a program'
+        ]);
+    }
+
+    public function getByProduct($id){
+        $data = DB::table('tbl_program')
+                    ->leftJoin('tbl_product','tbl_program.id_product','=','tbl_product.id')
+                    ->leftJoin('tbl_category_product','tbl_product.id_category_product','=','tbl_category_product.id')
+                    ->select('tbl_program.*','tbl_product.product','tbl_category_product.category')
+                    ->where('tbl_program.id_product','=',$id)
+                    ->get();
+        return response()->json([
+            'success' => true,
+            'data'  => $data    
+        ]);
     }
 }

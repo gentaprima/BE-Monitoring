@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TblReminder extends Migration
+class TblLeadsProduct extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class TblReminder extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_reminder', function (Blueprint $table) {
+        Schema::create('tbl_leads_product', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_leads')->unsigned();
-            $table->date('tgl');
+            $table->unsignedBigInteger('id_program')->unsigned();
+            $table->integer('status');
+            $table->string('alasan')->nullable();
             $table->foreign('id_leads')->references('id')->on('tbl_leads')->onDelete('cascade');
+            $table->foreign('id_program')->references('id')->on('tbl_program')->onDelete('cascade');
         });
     }
 
@@ -28,6 +31,6 @@ class TblReminder extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_reminder');
+        Schema::dropIfExists('tbl_leads_product');
     }
 }

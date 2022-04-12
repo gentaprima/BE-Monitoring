@@ -80,7 +80,8 @@ class ProductController extends Controller
         $product = ModelProduct::create([
             'product' => $request->product,
             'icon'  => $filename,
-            'id_category_product'  => $request->category
+            'id_category_product'  => $request->category,
+            'persyaratan'   => $request->persyaratan
         ]);
 
         $product->save();
@@ -149,6 +150,7 @@ class ProductController extends Controller
         $product->product = $request->product;
         $product->icon = $filename;
         $product->id_category_product = $request->category;
+        $product->persyaratan = $request->persyaratan;
 
         $product->save();
         return response()->json([

@@ -86,6 +86,7 @@ class KaryawanController extends Controller
             $nip = $checkData['nip'] + 1;
         }
 
+
         $karyawan = ModelKaryawan::create([
             'nip'               => $nip,
             'nik'               => $request->nik,
@@ -94,7 +95,8 @@ class KaryawanController extends Controller
             'password'          => Hash::make($nip),
             'tgl_lahir'         => $request->tgl_lahir,
             'id_jabatan'        => $request->id_jabatan,
-            'role'              => 0
+            'role'              => $request->role,
+            'image'             => ""
         ]);
 
         $karyawan->save();

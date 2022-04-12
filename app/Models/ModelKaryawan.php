@@ -9,7 +9,6 @@ class ModelKaryawan extends Model
 {
       
     protected $table = "tbl_karyawan";
-    protected $fillable = ["password"];
     protected $guarded = [];
     public $timestamps = false;
 }

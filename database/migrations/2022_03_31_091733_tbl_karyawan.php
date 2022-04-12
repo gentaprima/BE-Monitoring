@@ -20,6 +20,7 @@ class TblKaryawan extends Migration
             $table->string('nama_karyawan');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('image');
             $table->date('tgl_lahir');
             $table->unsignedBigInteger('id_jabatan')->unsigned();
             $table->integer('role');

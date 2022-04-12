@@ -21,6 +21,8 @@ class TblCustomer extends Migration
             $table->date('tgl_lahir');
             $table->string('no_rek');
             $table->string('jenis_kelamin');
+            $table->string('telepon');
+            $table->string('tgl_pendaftaran');
             $table->rememberToken();
             $table->timestamps();
         });

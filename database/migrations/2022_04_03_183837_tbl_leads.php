@@ -17,8 +17,7 @@ class TblLeads extends Migration
             $table->id();
             $table->unsignedBigInteger('id_customer')->unsigned();
             $table->unsignedBigInteger('id_karyawan')->unsigned();
-            $table->string('status');
-            $table->date('tgl');
+            $table->integer('is_contact')->default(0);
             $table->foreign('id_customer')->references('id')->on('tbl_customer')->onDelete('cascade');
             $table->foreign('id_karyawan')->references('id')->on('tbl_karyawan')->onDelete('cascade');
         });

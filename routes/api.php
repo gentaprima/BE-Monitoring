@@ -23,23 +23,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // AUTH
-Route::get('storage/{filename}', function ($filename)
-{
-    $path = storage_path('storage/app/icon' . $filename);
-    dd($path);
 
-    if (!File::exists($path)) {
-        abort(404);
-    }
-
-    $file = File::get($path);
-    $type = File::mimeType($path);
-
-    $response = Response::make($file, 200);
-    $response->header("Content-Type", $type);
-
-    return $response;
-});
 Route::post('/auth','AuthController@login');
 
 Route::get('/karyawan','KaryawanController@index');
@@ -62,6 +46,7 @@ Route::get('/alasan','ReasonController@index');
 Route::post('/alasan','ReasonController@store');
 Route::put('/alasan/{id}','ReasonController@update');
 Route::delete('/alasan/{id}','ReasonController@destroy');
+Route::get('/alasan/get-by-type/{id}','ReasonController@index');
 
 Route::get('/category-product','CategoryProductController@index');
 Route::post('/category-product','CategoryProductController@store');
@@ -72,6 +57,23 @@ Route::get('/program','ProgramController@index');
 Route::post('/program','ProgramController@store');
 Route::put('/program/{id}','ProgramController@update');
 Route::delete('/program/{id}','ProgramController@destroy');
+Route::get('/program/get-by-product/{id}','ProgramController@getByProduct');
+
+Route::put('/account/update-profile/{id}','AccountController@updateProfile');
+Route::put('/account/update-password/{id}','AccountController@changePassword');
+
+Route::get('/leads/{id}','LeadsController@index');
+Route::post('/leads/{id}','LeadsController@store');
+Route::put('/leads/{id}','LeadsController@update');
+Route::delete('/leads/{id}','LeadsController@destroy');
+
+Route::post("/leads-product/{id}",'LeadsProductController@store');
+Route::get("/leads-product/get-by-status/",'LeadsProductController@index');
+Route::put("/leads-product/update-response/{id}",'LeadsProductController@update');
+
+Route::get("/dashboard",'DashboardController@index');
+
+
 
 Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('cache:clear');
