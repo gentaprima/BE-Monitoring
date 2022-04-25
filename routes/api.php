@@ -71,7 +71,7 @@ Route::post("/leads-product/{id}",'LeadsProductController@store');
 Route::get("/leads-product/get-by-status/",'LeadsProductController@index');
 Route::put("/leads-product/update-response/{id}",'LeadsProductController@update');
 
-Route::get("/dashboard",'DashboardController@index');
+Route::get("/dashboard/{id}",'DashboardController@index');
 
 
 

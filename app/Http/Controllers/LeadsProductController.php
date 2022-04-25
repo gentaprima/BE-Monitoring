@@ -92,7 +92,7 @@ class LeadsProductController extends Controller
             ]);
 
             $poin->save();
-        }else if($request->status == 2){
+        }else if($request->status == 2 || $request->status == 3){
             if($request->alasan == ""){
                 return response()->json([
                     'success'   => false,
