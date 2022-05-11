@@ -18,6 +18,7 @@ class TblLeadsProduct extends Migration
             $table->unsignedBigInteger('id_leads')->unsigned();
             $table->unsignedBigInteger('id_program')->unsigned();
             $table->integer('status');
+            $table->date('date');
             $table->string('alasan')->nullable();
             $table->foreign('id_leads')->references('id')->on('tbl_leads')->onDelete('cascade');
             $table->foreign('id_program')->references('id')->on('tbl_program')->onDelete('cascade');

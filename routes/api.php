@@ -46,7 +46,7 @@ Route::get('/alasan','ReasonController@index');
 Route::post('/alasan','ReasonController@store');
 Route::put('/alasan/{id}','ReasonController@update');
 Route::delete('/alasan/{id}','ReasonController@destroy');
-Route::get('/alasan/get-by-type/{id}','ReasonController@index');
+Route::get('/alasan/get-by-type/{id}','ReasonController@getByType');
 
 Route::get('/category-product','CategoryProductController@index');
 Route::post('/category-product','CategoryProductController@store');
@@ -70,6 +70,9 @@ Route::delete('/leads/{id}','LeadsController@destroy');
 Route::post("/leads-product/{id}",'LeadsProductController@store');
 Route::get("/leads-product/get-by-status/",'LeadsProductController@index');
 Route::put("/leads-product/update-response/{id}",'LeadsProductController@update');
+
+Route::get("/reminder",'ReminderController@index');
+Route::post("/reminder",'ReminderController@store');
 
 Route::get("/dashboard/{id}",'DashboardController@index');
 

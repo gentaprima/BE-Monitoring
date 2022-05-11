@@ -15,9 +15,9 @@ class TblReminder extends Migration
     {
         Schema::create('tbl_reminder', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_leads')->unsigned();
+            $table->unsignedBigInteger('id_leads_product')->unsigned();
             $table->date('tgl');
-            $table->foreign('id_leads')->references('id')->on('tbl_leads')->onDelete('cascade');
+            $table->foreign('id_leads_product')->references('id')->on('tbl_leads_product')->onDelete('cascade');
         });
     }
 

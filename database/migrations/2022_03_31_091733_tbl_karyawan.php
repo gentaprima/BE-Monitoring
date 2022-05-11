@@ -18,6 +18,7 @@ class TblKaryawan extends Migration
             $table->string('nip');
             $table->string('nik');
             $table->string('nama_karyawan');
+            $table->string('telepon');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('image');

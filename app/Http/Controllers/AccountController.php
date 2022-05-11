@@ -17,6 +17,7 @@ class AccountController extends Controller
             'nama_karyawan'  => 'required',
             'email'          => 'required|email',
             'tgl_lahir'      => 'required|date',
+            'telepon'        => 'required'
             
         ],
         [
@@ -25,6 +26,7 @@ class AccountController extends Controller
             'email.required'            => "Email is required",
             'tgl_lahir.required'        =>  'Date of Birth is required',
             'tgl_lahir.date'            =>  'Date of Birth is not a valid date. (YYYY-MM-DD)',
+            'telepon.required'          => 'Phone Number is required'
         ]);
 
         if($validate->fails()){
@@ -49,6 +51,7 @@ class AccountController extends Controller
         $account->email = $request->email;
         $account->tgl_lahir = $request->tgl_lahir;
         $account->image =  $filename;
+        $account->telepon = $request->telepon;
         $account->save();
 
         return response()->json([

@@ -4,15 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelReason;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ReasonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $data = ModelReason::all();
@@ -21,23 +17,6 @@ class ReasonController extends Controller
             'data'   => $data
         ])->setStatusCode(200);    
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validate = Validator::make($request->all(),[
@@ -66,35 +45,6 @@ class ReasonController extends Controller
         ])->setStatusCode(200);   
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ModelReason  $modelReason
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ModelReason $modelReason)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ModelReason  $modelReason
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ModelReason $modelReason)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ModelReason  $modelReason
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validate = Validator::make($request->all(),[
@@ -122,12 +72,6 @@ class ReasonController extends Controller
         ])->setStatusCode(200);   
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ModelReason  $modelReason
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $reason = ModelReason::find($id);
@@ -136,5 +80,15 @@ class ReasonController extends Controller
             'success'   => true,
             'message'   => 'Successfully deleting reason.'
         ])->setStatusCode(200);  
+    }
+
+    public function getByType($id){
+        $data = DB::table('tbl_alasan')
+                    ->where('type','=',$id)
+                    ->get();
+        return response()->json([
+            'success'   => true,
+            'data'      => $data
+        ])->setStatusCode(200);
     }
 }

@@ -20,7 +20,7 @@ class LeadsController extends Controller
         $data = DB::table('tbl_leads')
                     ->leftJoin('tbl_customer','tbl_leads.id_customer','=','tbl_customer.id')
                     ->leftJoin('tbl_karyawan','tbl_leads.id_karyawan','=','tbl_karyawan.id')
-                    ->select('tbl_leads.*','tbl_customer.nik','tbl_customer.nama_customer','tbl_customer.email','tbl_customer.tgl_lahir','tbl_customer.jenis_kelamin','tbl_customer.no_rek')
+                    ->select('tbl_leads.*','tbl_customer.nik','tbl_customer.nama_customer','tbl_customer.email','tbl_customer.tgl_lahir','tbl_customer.jenis_kelamin','tbl_customer.no_rek','tbl_customer.telepon')
                     ->where('tbl_leads.id_karyawan','=',$id)
                     ->paginate($request->limit ? $request->limit : 5);
 
@@ -105,7 +105,8 @@ class LeadsController extends Controller
         
         $leads = ModelLeads::create([
             'id_customer'   => $getCustomer['id'],
-            'id_karyawan'   => $id
+            'id_karyawan'   => $id,
+            'date'          => date('Y-m-d')
         ]);
 
         $leads->save();

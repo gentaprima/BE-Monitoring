@@ -51,7 +51,8 @@ class KaryawanController extends Controller
             'email'                     =>  'required|max:100|email',
             'tgl_lahir'                 =>  'required|date',
             'id_jabatan'                =>  'required|max:100',
-            'role'                      =>  'required'
+            'role'                      =>  'required',
+            'telepon'                   =>  'required'
         ],[
             'nik.required'              =>  'Nik is required',
             'nik.max'                   =>  'Nik max is 16 characters',
@@ -63,6 +64,7 @@ class KaryawanController extends Controller
             'tgl_lahir.date'            =>  'Date of Birth is not a valid date. (YYYY-MM-DD)',
             'id_jabatan.required'       =>  'Position  is required',
             'role.required'             =>  'Role  is required',
+            'telepon.required'          =>  'Phone Number  is required',
         ]);
 
         if($validate->fails()) {
@@ -96,7 +98,8 @@ class KaryawanController extends Controller
             'tgl_lahir'         => $request->tgl_lahir,
             'id_jabatan'        => $request->id_jabatan,
             'role'              => $request->role,
-            'image'             => ""
+            'image'             => "",
+            'telepon'           => $request->telepon
         ]);
 
         $karyawan->save();
