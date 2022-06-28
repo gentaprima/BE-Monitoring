@@ -71,17 +71,17 @@ class DashboardController extends Controller
 
         $data = [
           "already_contact" => count($leadsContact),
-          "already_contact_percent" => $alreadyContactPercent == 100 ? $alreadyContactPercent.'%' : substr($alreadyContactPercent,0,2).'%',
+          "already_contact_percent" => $alreadyContactPercent == 100 ? $alreadyContactPercent : substr($alreadyContactPercent,0,2),
           "not_contact" => count($leadsNotContact),
-          "not_contact_percent" => $notContactPercent == 100 ? $notContactPercent.'%' : substr($notContactPercent,0,2).'%',
+          "not_contact_percent" => $notContactPercent == 100 ? $notContactPercent : substr($notContactPercent,0,2),
           "point_of_sales" => $poin,
           "insentif"       => $insentif,
           "follow_up"      => count($followUp),
-          "follow_up_percent" => $followUpPercent == 100 ? $followUpPercent.'%' : substr($followUpPercent,0,2).'%',
+          "follow_up_percent" => $followUpPercent == 100 ? $followUpPercent : substr($followUpPercent,0,2),
           "interested"      => count($interested),
-          "interested_percent" => $interestedPercent == 100 ? $interestedPercent.'%' : substr($interestedPercent,0,2).'%',
+          "interested_percent" => $interestedPercent == 100 ? $interestedPercent : substr($interestedPercent,0,2),
           "refuse"      => count($refuse),
-          "refuse_percent" => $refusePercent == 100 ? $refusePercent.'%' : substr($refusePercent,0,2).'%',
+          "refuse_percent" => $refusePercent == 100 ? $refusePercent : substr($refusePercent,0,2),
         ];
 
         return response()->json([
